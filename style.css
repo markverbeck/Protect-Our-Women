@@ -1,0 +1,39 @@
+body {
+	background: #e2e2e2;
+}
+
+#chat_window {
+	height: 20em;
+    width: fit-content;
+    border: solid grey 1px;
+    margin-bottom: 3em;
+    background: white;
+    overflow: auto;
+}
+
+#chat_heading {
+	padding-top: .5em;
+	text-decoration: underline;
+}
+
+.name{
+	font-weight: bold;
+	color: purple;
+}
+
+.mess {
+	font-weight: lighter;
+	color: black;
+}
+
+.chat_box {
+	overflow: auto;
+}
+.grey_chat_line {
+	background: #f7f4f4;
+}
+
+.greyer_chat_line {
+	background: #e2e2e2;
+}
+
