@@ -1,0 +1,24 @@
+{
+  "name": "protect-our-women",
+  "version": "1.0.0",
+  "description": "Safety App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markverbeck/Protect-Our-Women.git"
+  },
+  "author": "Mark Verbeck",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/markverbeck/Protect-Our-Women/issues"
+  },
+  "homepage": "https://github.com/markverbeck/Protect-Our-Women#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.4"
+  }
+}
