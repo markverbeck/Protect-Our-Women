@@ -1,8 +1,7 @@
 
-
-
-
 $(document).ready(function(){
+
+  var socket = io.connect("http://localhost:4000");
 
   var messages = [];
   var user_names = [];
@@ -18,9 +17,17 @@ $(document).ready(function(){
   $("#send").click(function(){
     var user_name = $("#user_name").val();
     var message = $("#message").val();
+
+    socket.emit("chat", {
+      socket_message: message,
+      socket_user: user_name
+    });
     
-    messages.push(message);
-    user_names.push(user_name);
+  })
+
+  socket.on('chat', function(data){
+    messages.push(data.socket_message);
+    user_names.push(data.socket_user);
 
     $(".chat_messages").empty();
     display_messages();
@@ -30,7 +37,6 @@ $(document).ready(function(){
     
     
     $("#message").val("");
-
-  })
+  });
 
 });
