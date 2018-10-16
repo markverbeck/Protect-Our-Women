@@ -20,7 +20,12 @@ var io = socket(server);
 io.on('connection', function(socket){
   console.log('Made socket connection', socket.id);
 
+  socket.on('sign_in', function(data){
+    io.sockets.emit('sign_in', data);
+  });
+
   socket.on('chat', function(data){
     io.sockets.emit('chat', data);
-  })
+  });
+  
 })

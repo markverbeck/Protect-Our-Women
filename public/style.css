@@ -4,7 +4,7 @@ body {
 
 #chat_window {
 	height: 20em;
-    width: fit-content;
+    width: 100%;
     border: solid grey 1px;
     margin-bottom: 3em;
     background: white;
@@ -37,3 +37,14 @@ body {
 	background: #e2e2e2;
 }
 
+.friend_list {
+	height: auto;
+	border: solid grey 1px;
+    margin-bottom: 3em;
+    background: white;
+    overflow: auto;
+}
+
+.signed_in_div{
+	display: none;
+}
