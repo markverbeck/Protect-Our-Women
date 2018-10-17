@@ -27,5 +27,14 @@ io.on('connection', function(socket){
   socket.on('chat', function(data){
     io.sockets.emit('chat', data);
   });
-  
+
+  socket.on('status', function(data){
+    io.sockets.emit('status', data);
+  });
+
+  socket.on('alert', function(data){
+    socket.broadcast.emit("status",data);
+
+  })
+
 })

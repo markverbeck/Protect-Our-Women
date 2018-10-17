@@ -3,6 +3,8 @@ $(document).ready(function(){
 
   var socket = io.connect("https://lit-ravine-11381.herokuapp.com/");
 
+  //lit-ravine-11381.herokuapp.com/
+
   var messages = [];
   var user_names = [];
 
@@ -45,10 +47,67 @@ $(document).ready(function(){
 
   });
 
+  $("#fine").click(function(){
+    var user_name = $("#user_name").val();
+
+    socket.emit("status", {
+      socket_user: user_name,
+      socket_status: "btn-success",
+      alert_status: "fine"
+    });
+
+    
+
+  });
+
+  $("#btn-concerned").click(function(){
+    var user_name = $("#user_name").val();
+
+    socket.emit("status", {
+      socket_user: user_name,
+      socket_status: "concerned",
+      alert_status: "concerned"
+
+    });
+
+    
+
+  });
+
+  $("#worried").click(function(){
+    var user_name = $("#user_name").val();
+
+    socket.emit("status", {
+      socket_user: user_name,
+      socket_status: "btn-warning",
+      alert_status: "worried"
+
+    });
+
+    
+
+  });
+
+
+    $("#afraid").click(function(){
+    var user_name = $("#user_name").val();
+
+    socket.emit("status", {
+      socket_user: user_name,
+      socket_status: "btn-danger",
+      alert_status: "afraid"
+
+    });
+
+   
+  });
+
+  
+
   // --- Socket Functions --
   socket.on('sign_in', function(data){
     console.log(data.socket_user);
-        var friend_div = "<div class='row'><div class='col-lg-4'><p class='f_name'>" + data.socket_user + "</p>" + "</div><div class='col-lg-8'><p class='location'>Location: <span class='specefic_loc'>" + data.socket_location + "</span></p></div></div>";
+        var friend_div = "<div class='row'><div class='col-lg-4'><p class='f_name'>" + data.socket_user +  "<span id='" + data.socket_user +"' class='btn-success' style='padding: 0px 10px; width:23%; border: black solid 1px; margin-left: .1em;' ></span></p>" + "</div><div class='col-lg-8'><p class='location'>Location: <span class='specefic_loc'>" + data.socket_location + "</span></p></div></div>";
 
 
         $(".list_friends").append(friend_div);
@@ -56,6 +115,7 @@ $(document).ready(function(){
     
   });
 
+  
   socket.on('chat', function(data){
     messages.push(data.socket_message);
     user_names.push(data.socket_user);
@@ -69,5 +129,25 @@ $(document).ready(function(){
     
     $("#message_input").val("");
   });
+
+  
+  socket.on('status', function(data){
+
+    var className = $("#" + data.socket_user).attr('class');
+    
+    $("#" + data.socket_user).toggleClass(className + "");
+    $("#" + data.socket_user).addClass(data.socket_status);
+
+    messages.push("has changed her status to " + data.alert_status);
+    user_names.push(data.socket_user);
+
+    $(".chat_messages").empty();
+    display_messages();
+
+    
+    $(".name").addClass("grey_chat_line");
+  });
+
+
 
 });
