@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 
-  var socket = io.connect("https://lit-ravine-11381.herokuapp.com/");
+  var socket = io.connect("http://localhost:4000/");
 
   //lit-ravine-11381.herokuapp.com/
 
@@ -102,12 +102,27 @@ $(document).ready(function(){
    
   });
 
+    // ------ Location/Destination buttons ------
+
+    $(".loc_dest").click(function(){
+      var user_name = $("#user_name").val();
+      var location = $(".location_input").val();
+      var destination = $(".destination_input").val();
+
+      socket.emit("location/destination", {
+      socket_user: user_name,
+      socket_location: location,
+      socket_destination: destination
+
+    });
+    })
+
   
 
   // --- Socket Functions --
   socket.on('sign_in', function(data){
     console.log(data.socket_user);
-        var friend_div = "<div class='row'><div class='col-lg-4'><p class='f_name'>" + data.socket_user +  "<span id='" + data.socket_user +"' class='btn-success' style='padding: 0px 10px; width:23%; border: black solid 1px; margin-left: .1em;' ></span></p>" + "</div><div class='col-lg-8'><p class='location'>Location: <span class='specefic_loc'>" + data.socket_location + "</span></p></div></div>";
+        var friend_div = "<div class='row'><div class='col-lg-4'><p class='f_name'>" + data.socket_user +  "<span id='" + data.socket_user +"' class='btn-success' style='padding: 0px 10px; width:23%; border: black solid 1px; margin-left: .1em;' ></span></p>" + "</div><div class='col-lg-8'><p class='location_" + data.socket_user + "'>Location: <span class='specefic_loc'>" + data.socket_location + "</span></p><p class='destination_" + data.socket_user + "'>Destination: <span class='specefic_dest'></span></p></div></div>";
 
 
         $(".list_friends").append(friend_div);
@@ -146,6 +161,24 @@ $(document).ready(function(){
 
     
     $(".name").addClass("grey_chat_line");
+  });
+
+  socket.on('location/destination', function(data){
+
+    if(data.socket_location === ''){
+      console.log("no location");
+    }else{
+      $(".location_" + data.socket_user).html("Location: " + data.socket_location);
+      $(".location_input").val('');
+    }
+
+    if(data.socket_destination === ''){
+      console.log("no destination");
+    }else{
+      $(".destination_" + data.socket_user).html("Destination: " + data.socket_destination);
+      $(".destination_input").val('');
+    }
+
   });
 
 

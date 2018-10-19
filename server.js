@@ -32,9 +32,9 @@ io.on('connection', function(socket){
     io.sockets.emit('status', data);
   });
 
-  socket.on('alert', function(data){
-    socket.broadcast.emit("status",data);
+  socket.on('location/destination', function(data){
+    io.sockets.emit("location/destination",data);
 
-  })
+  });
 
 })
