@@ -71,9 +71,14 @@ body {
 
 #btn-concerned {
 	background: #fcee5a;
+
 }
 
 .concerned {
 	background: #fcee5a;
 
+}
+
+#concerned_buttons{
+	display: none;
 }

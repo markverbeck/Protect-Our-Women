@@ -37,4 +37,14 @@ io.on('connection', function(socket){
 
   });
 
+  socket.on('arrived', function(data){
+    io.sockets.emit("arrived",data);
+
+  });
+
+  socket.on('concerned_button', function(data){
+    io.sockets.emit("concerned_button",data);
+
+  });
+
 })
