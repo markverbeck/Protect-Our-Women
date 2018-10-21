@@ -45,6 +45,11 @@ body {
     overflow: auto;
 }
 
+.f_name {
+	font-weight: bold;
+	color: black;
+}
+
 .signed_in_div{
 	display: none;
 }

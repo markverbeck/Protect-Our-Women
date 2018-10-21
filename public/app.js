@@ -22,11 +22,13 @@ $(document).ready(function(){
   $("#signIn").click(function(){
     var user_name = $("#user_name").val();
     var location = $("#location").val();
+    var phone_number = $("#phone_number").val();
     console.log(location);
 
     socket.emit("sign_in", {
       socket_location: location,
-      socket_user: user_name
+      socket_user: user_name,
+      socket_phone: phone_number
     });
 
     $(".sign_in_div").css({"display": "none"});
@@ -126,9 +128,9 @@ $(document).ready(function(){
 
       var user_name = $("#user_name").val();
       
+      
       socket.emit("arrived", {
-      socket_user: user_name,
-      socket_destination: "Arrived"
+      socket_user: user_name
 
     });
 
@@ -172,12 +174,25 @@ $(document).ready(function(){
     });
     });
 
+    // ------ Clear alert messages ------
+
+    $(".clear_button").click(function(){
+    var user_name = $("#user_name").val();
+    var message = $(".clear_button").val();
+
+
+      socket.emit("concerned_button", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
   
 
   // --- Socket Functions --
   socket.on('sign_in', function(data){
     console.log(data.socket_user);
-        var friend_div = "<div class='row' style='border-bottom: black solid 1px'><div class='col-lg-4'><p class='f_name'>" + data.socket_user +  "<span id='" + data.socket_user +"' class='btn-success' style='padding: 0px 10px; width:23%; border: black solid 1px; margin-left: .1em;' ></span></p>" + "</div><div class='col-lg-8'><p class='location_" + data.socket_user + "'>Location: <span class='specefic_loc'>" + data.socket_location + "</span></p><p class='destination_" + data.socket_user + "'>Destination: <span class='specefic_dest'></span></p><p class='arrived_" + data.socket_user + "'></p></div><h3 class='quick_mess_" + data.socket_user + " text-center'></h3></div>";
+        var friend_div = "<div class='row' style='border-bottom: black solid 1px'><div class='col-lg-4'><a  href='tel: " + data.socket_phone + "' class='f_name'>" + data.socket_user +  "<span id='" + data.socket_user +"' class='btn-success' style='padding: 0px 10px; width:23%; border: black solid 1px; margin-left: .1em;' ></span></a>" + "</div><div class='col-lg-8'><p class='location_" + data.socket_user + "'>Location: <span class='specefic_loc'>" + data.socket_location + "</span></p><p class='destination_" + data.socket_user + "'>Destination: <span class='specefic_dest'></span></p><p class='arrived_" + data.socket_user + "'></p></div><h3 class='quick_mess_" + data.socket_user + " text-center'></h3></div>";
 
 
         $(".list_friends").append(friend_div);
@@ -216,6 +231,16 @@ $(document).ready(function(){
 
     
     $(".name").addClass("grey_chat_line");
+    $(".quick_mess_" + data.socket_user).html('');
+    $(".quick_mess_" + data.socket_user).removeClass("grey_chat_line");
+    $(".quick_mess_" + data.socket_user).css({"border": "none"});
+
+    if(data.alert_status === "worried"){
+      alert(data.socket_user + " has changed her status to " + data.alert_status);
+    }else if(data.alert_status === "afraid"){
+      alert(data.socket_user + " has changed her status to " + data.alert_status);
+    }
+
   });
 
   socket.on('location/destination', function(data){
@@ -232,22 +257,48 @@ $(document).ready(function(){
     }else{
       $(".destination_" + data.socket_user).html("Destination: " + data.socket_destination);
       $(".destination_input").val('');
-      $(".arrived_" + data.socket_user).html("Haven't Arrived");
-      $(".arrived_" + data.socket_user).css({"color": "red"});
+      $(".arrived_" + data.socket_user).html("Haven't started trip");
+      $(".arrived_" + data.socket_user).css({"color": "blue"});
     }
 
   });
 
   socket.on('arrived', function(data){
-    $(".arrived_" + data.socket_user).html(data.socket_destination);
-    $(".arrived_" + data.socket_user).css({"color": "green"});
+    var arrival = $(".arrived_" + data.socket_user).html();
+
+
+    if(arrival === "Arrived"){
+      $(".arrived_" + data.socket_user).html("Haven't started trip");
+      $(".arrived_" + data.socket_user).css({"color": "blue"});
+    }else if(arrival === "Haven't started trip"){
+      $(".arrived_" + data.socket_user).html("Trip started, haven't arrived");
+      $(".arrived_" + data.socket_user).css({"color": "red"});
+      alert(data.socket_user + " has started her trip and hasn't arrived at her destination");
+    }else{
+      $(".arrived_" + data.socket_user).html("Arrived");
+      $(".arrived_" + data.socket_user).css({"color": "green"});
+      alert(data.socket_user + " has arrived at her destination");
+
+
+    }
+
+
+    
   })
 
   socket.on('concerned_button', function(data){
-    $(".quick_mess_" + data.socket_user).html('');
-    $(".quick_mess_" + data.socket_user).html(data.socket_message);
-    $(".quick_mess_" + data.socket_user).addClass("grey_chat_line");
-    $(".quick_mess_" + data.socket_user).css({"color": "#fcee5a", "text-shadow": "1px 1px 1px black", "padding":".2em", "border": "black solid 1px"});
+    if(data.socket_message === ''){
+      $(".quick_mess_" + data.socket_user).html('');
+      $(".quick_mess_" + data.socket_user).html(data.socket_message);
+      $(".quick_mess_" + data.socket_user).removeClass("grey_chat_line");
+      $(".quick_mess_" + data.socket_user).css({"border": "none"});
+
+    }else {
+      $(".quick_mess_" + data.socket_user).html('');
+      $(".quick_mess_" + data.socket_user).html(data.socket_message);
+      $(".quick_mess_" + data.socket_user).addClass("grey_chat_line");
+      $(".quick_mess_" + data.socket_user).css({"color": "#fcee5a", "text-shadow": "1px 1px 1px black", "padding":".2em", "border": "black solid 1px", "margin": "0em auto .5em"});
+    }
 
   });
 
