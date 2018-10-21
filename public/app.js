@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 
-  var socket = io.connect("https://lit-ravine-11381.herokuapp.com/");
+  var socket = io.connect("http://localhost:4000/");
 
   //lit-ravine-11381.herokuapp.com/
 
