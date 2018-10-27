@@ -52,6 +52,11 @@ $(document).ready(function(){
   $("#fine").click(function(){
     var user_name = $("#user_name").val();
     $("#concerned_buttons").css({"display": "none"});
+    $("#worried_buttons").css({"display": "none"});
+    $("#worried_alerts").css({"display": "none"});
+    $("#afraid_buttons").css({"display": "none"});
+    $("#afraid_alerts").css({"display": "none"});
+
 
     socket.emit("status", {
       socket_user: user_name,
@@ -66,6 +71,12 @@ $(document).ready(function(){
   $("#btn-concerned").click(function(){
     var user_name = $("#user_name").val();
     $("#concerned_buttons").css({"display": "block"});
+    $("#worried_buttons").css({"display": "none"});
+    $("#worried_alerts").css({"display": "none"});
+    $("#afraid_buttons").css({"display": "none"});
+    $("#afraid_alerts").css({"display": "none"});
+
+
     socket.emit("status", {
       socket_user: user_name,
       socket_status: "concerned",
@@ -80,6 +91,12 @@ $(document).ready(function(){
   $("#worried").click(function(){
     var user_name = $("#user_name").val();
     $("#concerned_buttons").css({"display": "none"});
+    $("#worried_buttons").css({"display": "block"});
+    $("#worried_alerts").css({"display": "block"});
+    $("#afraid_buttons").css({"display": "none"});
+    $("#afraid_alerts").css({"display": "none"});
+
+
 
     socket.emit("status", {
       socket_user: user_name,
@@ -96,6 +113,14 @@ $(document).ready(function(){
     $("#afraid").click(function(){
     var user_name = $("#user_name").val();
     $("#concerned_buttons").css({"display": "none"});
+    $("#worried_buttons").css({"display": "none"});
+    $("#worried_alerts").css({"display": "none"});
+    $("#afraid_buttons").css({"display": "block"});
+    $("#afraid_alerts").css({"display": "block"});
+
+
+
+
 
     socket.emit("status", {
       socket_user: user_name,
@@ -174,6 +199,152 @@ $(document).ready(function(){
     });
     });
 
+    // ------ Worried Buttons ------
+
+    $(".myself").click(function(){
+    var user_name = $("#user_name").val();
+    var message = $(".myself").val();
+
+
+      socket.emit("worried_button", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    $(".group_member").click(function(){
+    var user_name = $("#user_name").val();
+    var message = $(".group_member").val();
+
+
+      socket.emit("worried_button", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    $(".group").click(function(){
+    var user_name = $("#user_name").val();
+    var message = $(".group").val();
+
+
+      socket.emit("worried_button", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    // ------ Worried alerts ------
+
+    $(".potential").click(function(){
+      var user_name = $("#user_name").val();
+      var message = $(".potential").val();
+
+      socket.emit("worried_alert", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    $(".verbal").click(function(){
+      var user_name = $("#user_name").val();
+      var message = $(".verbal").val();
+
+      socket.emit("worried_alert", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    $(".physical").click(function(){
+      var user_name = $("#user_name").val();
+      var message = $(".physical").val();
+
+      socket.emit("worried_alert", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    // ------ Afraid Buttons ------
+
+    $(".myself_afraid").click(function(){
+    var user_name = $("#user_name").val();
+    var message = $(".myself_afraid").val();
+
+
+      socket.emit("afraid_button", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    $(".group_member_afraid").click(function(){
+    var user_name = $("#user_name").val();
+    var message = $(".group_member_afraid").val();
+
+
+      socket.emit("afraid_button", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    $(".group_afraid").click(function(){
+    var user_name = $("#user_name").val();
+    var message = $(".group_afraid").val();
+
+
+      socket.emit("afraid_button", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    // ------ Afraid Alerts ------
+
+    $(".danger").click(function(){
+      var user_name = $("#user_name").val();
+      var message = $(".danger").val();
+
+      socket.emit("afraid_alert", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    $(".threatened").click(function(){
+      var user_name = $("#user_name").val();
+      var message = $(".threatened").val();
+
+      socket.emit("afraid_alert", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
+    $(".attacked").click(function(){
+      var user_name = $("#user_name").val();
+      var message = $(".attacked").val();
+
+      socket.emit("afraid_alert", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
+
     // ------ Clear alert messages ------
 
     $(".clear_button").click(function(){
@@ -187,12 +358,24 @@ $(document).ready(function(){
 
     });
     });
+
+    $(".clear_alert").click(function(){
+    var user_name = $("#user_name").val();
+    var message = $(".clear_alert").val();
+
+
+      socket.emit("worried_alert", {
+      socket_message: message,
+      socket_user: user_name
+
+    });
+    });
   
 
   // --- Socket Functions --
   socket.on('sign_in', function(data){
     console.log(data.socket_user);
-        var friend_div = "<div class='row' style='border-bottom: black solid 1px'><div class='col-lg-4'><a  href='tel: " + data.socket_phone + "' class='f_name'>" + data.socket_user +  "<span id='" + data.socket_user +"' class='btn-success' style='padding: 0px 10px; width:23%; border: black solid 1px; margin-left: .1em;' ></span></a>" + "</div><div class='col-lg-8'><p class='location_" + data.socket_user + "'>Location: <span class='specefic_loc'>" + data.socket_location + "</span></p><p class='destination_" + data.socket_user + "'>Destination: <span class='specefic_dest'></span></p><p class='arrived_" + data.socket_user + "'></p></div><h3 class='quick_mess_" + data.socket_user + " text-center'></h3></div>";
+        var friend_div = "<div class='row' style='border-bottom: black solid 1px; border-top: black solid 1px;'><div class='col-lg-4'><a  href='tel: " + data.socket_phone + "' class='f_name'>" + data.socket_user +  "<span id='" + data.socket_user +"' class='btn-success' style='padding: 0px 10px; width:23%; border: black solid 1px; margin-left: .1em;' ></span></a>" + "</div><div class='col-lg-8'><p class='location_" + data.socket_user + "'>Location: <span class='specefic_loc'>" + data.socket_location + "</span></p><p class='destination_" + data.socket_user + "'>Destination: <span class='specefic_dest'></span></p><p class='arrived_" + data.socket_user + "'></p></div><h3 class='quick_mess_" + data.socket_user + " text-center'></h3><h3 class='quick_alert_" + data.socket_user + " text-center'></h3></div>";
 
 
         $(".list_friends").append(friend_div);
@@ -302,6 +485,59 @@ $(document).ready(function(){
 
   });
 
+  socket.on('worried_button', function(data){
+    $(".quick_mess_" + data.socket_user).html('');
+    $(".quick_mess_" + data.socket_user).html(data.socket_message);
+    $(".quick_mess_" + data.socket_user).addClass("grey_chat_line");
+    $(".quick_mess_" + data.socket_user).css({"color": "#ffc107", "text-shadow": "1px 1px 1px black", "padding":".2em", "border": "black solid 1px", "margin": ".5em auto .5em"});
+  });
 
+  socket.on('worried_alert', function(data){
+    
+    if(data.socket_message === ''){
+      $(".quick_alert_" + data.socket_user).html('');
+      $(".quick_alert_" + data.socket_user).html(data.socket_message);
+      $(".quick_alert_" + data.socket_user).removeClass("grey_chat_line");
+      $(".quick_alert_" + data.socket_user).css({"border": "none"});
+    }else{
+
+    $(".quick_alert_" + data.socket_user).html('');
+    $(".quick_alert_" + data.socket_user).html(data.socket_message);
+    $(".quick_alert_" + data.socket_user).addClass("grey_chat_line");
+    $(".quick_alert_" + data.socket_user).css({"color": "#ffc107", "text-shadow": "1px 1px 1px black", "padding":".2em", "border": "black solid 1px", "margin": "0em auto .5em"});
+
+    if(data.socket_message === "Potential Dangerous Situation."){
+      alert(data.socket_user + " is in a " + data.socket_message);
+
+    }else{
+      alert(data.socket_user + " is " + data.socket_message);
+
+    };
+     
+    };
+  });
+
+  socket.on('afraid_button', function(data){
+    $(".quick_mess_" + data.socket_user).html('');
+    $(".quick_mess_" + data.socket_user).html(data.socket_message);
+    $(".quick_mess_" + data.socket_user).addClass("grey_chat_line");
+    $(".quick_mess_" + data.socket_user).css({"color": "#dc3545", "text-shadow": "1px 1px 1px black", "padding":".2em", "border": "black solid 1px", "margin": ".5em auto .5em"});
+  });
+
+  socket.on('afraid_alert', function(data){
+    $(".quick_alert_" + data.socket_user).html('');
+    $(".quick_alert_" + data.socket_user).html(data.socket_message);
+    $(".quick_alert_" + data.socket_user).addClass("grey_chat_line");
+    $(".quick_alert_" + data.socket_user).css({"color": "#dc3545", "text-shadow": "1px 1px 1px black", "padding":".2em", "border": "black solid 1px", "margin": "0em auto .5em"});
+
+    if(data.socket_message === "Dangerous Situation."){
+      alert(data.socket_user + " is in a " + data.socket_message);
+    }else if(data.socket_message === 'Threatened with violence.'){
+      alert(data.socket_user + " has been " + data.socket_message);
+    }else{
+      alert(data.socket_user + " is " + data.socket_message);
+
+    };
+  });
 
 });

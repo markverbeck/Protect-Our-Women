@@ -87,3 +87,19 @@ body {
 #concerned_buttons{
 	display: none;
 }
+
+#worried_buttons{
+	display: none;
+}
+
+#worried_alerts {
+	display: none;
+}
+
+#afraid_buttons{
+	display: none;
+}
+
+#afraid_alerts{
+	display: none;
+}

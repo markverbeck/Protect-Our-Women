@@ -47,4 +47,24 @@ io.on('connection', function(socket){
 
   });
 
+  socket.on('worried_button', function(data){
+    io.sockets.emit("worried_button",data);
+
+  });
+
+  socket.on('worried_alert', function(data){
+    io.sockets.emit("worried_alert",data);
+
+  });
+
+  socket.on('afraid_button', function(data){
+    io.sockets.emit("afraid_button",data);
+
+  });
+
+  socket.on('afraid_alert', function(data){
+    io.sockets.emit("afraid_alert",data);
+
+  });
+
 })
